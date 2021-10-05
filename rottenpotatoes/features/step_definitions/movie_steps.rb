@@ -1,11 +1,19 @@
 # Add a declarative step here for populating the DB with movies.
 
+total = 0
+
 Given /the following movies exist/ do |movies_table|
+  total = 0
   movies_table.hashes.each do |movie|
     # each returned element will be a hash whose key is the table header.
     # you should arrange to add that movie to the database here.
-  end
-  fail "Unimplemented"
+    Movie.new(movie).save
+    total = total + 1
+    #puts movie.title
+   
+  end 
+  #puts total
+  #fail "Unimplemented"
 end
 
 Then /(.*) seed movies should exist/ do | n_seeds |
@@ -29,10 +37,19 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   # HINT: use String#split to split up the rating_list, then
   #   iterate over the ratings and reuse the "When I check..." or
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
-  fail "Unimplemented"
+  #fail "Unimplemented"
+
+  if uncheck.nil?
+    rating_list.split(', ').each { |rating| check("ratings[" + rating + "]") }
+  else
+    rating_list.split(', ').each { |rating| uncheck("ratings[" + rating + "]") }
+  end
+
 end
 
 Then /I should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
-  fail "Unimplemented"
+  #puts total
+  page.should have_css("table#movies tbody tr", :count => total)
+  
 end
