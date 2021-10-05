@@ -1,14 +1,14 @@
 # Add a declarative step here for populating the DB with movies.
 
-total = 0
+#total = 0
 
 Given /the following movies exist/ do |movies_table|
-  total = 0
+  #total = 0
   movies_table.hashes.each do |movie|
     # each returned element will be a hash whose key is the table header.
     # you should arrange to add that movie to the database here.
     Movie.new(movie).save
-    total = total + 1
+    #total = total + 1
     #puts movie.title
    
   end 
@@ -33,7 +33,7 @@ Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #log e1
   #log "e2"
   #log e2
-  expect(page.body.index(e2) > page.body.index(e1))
+  page.body.index(e2).should be > page.body.index(e1)
 end
 
 # Make it easier to express checking or unchecking several boxes at once
@@ -57,6 +57,6 @@ end
 Then /I should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
   #puts total
-  page.should have_css("table#movies tbody tr", :count => total)
+  page.should have_css("table#movies tbody tr", :count => Movie.count)
   
 end

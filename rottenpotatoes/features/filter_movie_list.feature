@@ -39,7 +39,7 @@ Scenario: restrict to movies with 'PG' or 'R' ratings
   And I should see "When Harry Met Sally"
   And I should see "Amelie"
   And I should see "The Incredibles"
-  
+
   # enter step(s) to ensure that other movies are not visible
   Then I should not see "Aladdin"
   And I should not see "Chocolat"
